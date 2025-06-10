@@ -12,6 +12,9 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
     PROJECT_NAME: str = "MetaPantry AR"
     
+    # JWT token settings
+    ALGORITHM: str = "HS256"
+    
     # BACKEND_CORS_ORIGINS is a comma-separated list of origins
     # e.g: "http://localhost,http://localhost:4200,http://localhost:3000"
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = [
@@ -48,6 +51,11 @@ class Settings(BaseSettings):
 
     OPENAI_API_KEY: str = ""
     OPEN_FOOD_FACTS_API_URL: str = "https://world.openfoodfacts.org/api/v0"
+
+    # First superuser
+    FIRST_SUPERUSER: str = "admin@metapantry.com"
+    FIRST_SUPERUSER_PASSWORD: str = "admin"
+    FIRST_SUPERUSER_FULLNAME: str = "Admin"
 
     class Config:
         case_sensitive = True
