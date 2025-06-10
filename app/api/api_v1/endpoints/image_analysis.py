@@ -8,12 +8,17 @@ from PIL import Image
 
 from app.core.config import settings
 from app.schemas.food_item import FoodItemCreate
+from app.api import deps
+from app import models
 
 router = APIRouter()
 
 
 @router.post("/", response_model=FoodItemCreate)
-async def analyze_image(file: UploadFile = File(...)) -> Any:
+async def analyze_image(
+    file: UploadFile = File(...),
+    current_user: models.User = Depends(deps.get_current_active_user)
+) -> Any:
     """
     Analyze food item image using OpenAI Vision API.
     """
