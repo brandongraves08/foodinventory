@@ -9,6 +9,7 @@ from app import crud, models, schemas
 from app.api import deps
 from app.core import security
 from app.core.config import settings
+from app.core.security import get_password_hash
 
 router = APIRouter()
 
@@ -49,23 +50,15 @@ def register_user(
     if user:
         raise HTTPException(
             status_code=400,
-            detail="A user with this email already exists.",
-        )
-    user = crud.user.get_by_username(db, username=user_in.username)
-    if user:
-        raise HTTPException(
-            status_code=400,
-            detail="A user with this username already exists.",
+            detail="The user with this email already exists in the system",
         )
     user = crud.user.create(db, obj_in=user_in)
     return user
 
 
-@router.get("/me", response_model=schemas.User)
-def read_users_me(
-    current_user: models.User = Depends(deps.get_current_active_user),
-) -> Any:
+@router.post("/test-token", response_model=schemas.User)
+def test_token(current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
-    Get current user.
+    Test access token
     """
     return current_user
