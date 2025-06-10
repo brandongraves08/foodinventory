@@ -1,5 +1,6 @@
 from sqlalchemy import Boolean, Column, String
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
 import uuid
 
 from app.db.base_class import Base
@@ -12,3 +13,6 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     is_active = Column(Boolean(), default=True)
     is_superuser = Column(Boolean(), default=False)
+    
+    # Relationship with food items
+    food_items = relationship("FoodItem", back_populates="owner")
