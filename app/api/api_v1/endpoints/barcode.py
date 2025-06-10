@@ -5,12 +5,17 @@ import requests
 
 from app.core.config import settings
 from app.schemas.food_item import FoodItemCreate
+from app.api import deps
+from app import models
 
 router = APIRouter()
 
 
 @router.get("/{barcode}", response_model=FoodItemCreate)
-def lookup_barcode(barcode: str) -> Any:
+def lookup_barcode(
+    barcode: str,
+    current_user: models.User = Depends(deps.get_current_active_user)
+) -> Any:
     """
     Lookup food item information using barcode from Open Food Facts API.
     """
